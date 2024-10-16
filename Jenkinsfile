@@ -17,9 +17,9 @@ pipeline {
                 sh 'npm run build'
             }
         }
-        stage('Build') {
+        stage('') {
             steps {
-                sh 'echo "Building project"'
+                
             }
         }
 
