@@ -1,32 +1,48 @@
-pipeline {
+ipeline {
     agent any
-
+    environment {
+        PATH = "$PATH:/usr/local/bin:/opt/homebrew/bin"  
+    }
     stages {
-        stage('Checkout') {
+        stage("Checkout") {
             steps {
-                // Code for checking out repository
-                git 'https://github.com/donthigarivinay/node-dockerized-project.git'
+                checkout scm
             }
         }
-        
-        stage('Build') {
+        stage('Install npm packages') {
             steps {
-                // Code for building the project
-                sh 'echo "Building project..."'
+                // Install npm packages
+                sh '/opt/homebrew/bin/npm install'
+
+                // Run tests
+                sh 'npm test'
             }
         }
-        
-        stage('Test') {
+        stage("Build") {
             steps {
-                // Code for running tests
-                sh 'echo "Running tests..."'
+                // Run build command
+                sh 'npm run build'
             }
         }
-        
-        stage('Deploy') {
+        stage('Docker Build') {
             steps {
-                // Code for deploying the project
-                sh 'echo "Deploying project..."'
+                // Build Docker image
+                sh 'docker build -t my-node-app:1.0 .'
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'nodejs-docker', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
+                    // Use --password-stdin for secure login
+                    sh 'echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin'
+
+                    // Tag and push Docker image
+                    sh 'docker tag my-node-app:1.0 srivardhan0909/nodejs-docker'
+                    sh 'docker push srivardhan0909/nodejs-docker'
+
+                    // Docker logout
+                    sh 'docker logout'
+                }
             }
         }
     }
