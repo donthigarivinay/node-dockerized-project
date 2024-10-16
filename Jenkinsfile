@@ -24,9 +24,12 @@ pipeline {
                 bat 'npm run build'
             }
         }
-        stage("Build Image") {
+        stage('Deploy') {
             steps {
-                bat 'docker build -t my-node-app:1.0 .'
+                script {
+                    // Deploy your Docker image
+                    echo 'Deploying application...'
+                }
             }
         }
         
