@@ -27,7 +27,7 @@ pipeline {
         stage("Build Image") {
             steps {
                 script {
-                    docker.build('my-node-app:1.0')
+                  bat 'docker.build('my-node-app:1.0', '.')'
                 }
             }
         }
