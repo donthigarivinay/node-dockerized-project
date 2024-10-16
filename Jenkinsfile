@@ -18,9 +18,10 @@ pipeline {
                 bat 'npm test'
             }
         }
-        stage("Build"){
-            steps{
-                sh 'npm run build'
+        stage("Build") {
+            steps {
+        // Use 'bat' for running commands in Windows
+                bat 'npm run build'
             }
         }
         stage("Build Image") {
