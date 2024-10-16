@@ -27,9 +27,10 @@ pipeline {
         stage("Build Image") {
             steps {
                 // Use 'bat' for Windows and run the Docker build command
-                bat 'docker build -t my-node-app:1.0 .'
+               docker build -t my-node-app:1.0 .
             }
         }
+        
 
     }
 }
