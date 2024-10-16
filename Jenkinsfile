@@ -26,8 +26,9 @@ pipeline {
         }
         stage("Build Image") {
             steps {
-                // Use 'bat' for Windows and run the Docker build command
-               bat 'docker build -t my-node-app:1.0 Dockerfile'
+                script {
+                    docker.build('my-node-app:1.0')
+                }
             }
         }
         
