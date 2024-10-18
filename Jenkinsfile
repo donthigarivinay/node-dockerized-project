@@ -39,26 +39,20 @@ pipeline {
         }
         stage('Docker Push') {
     steps {
-       @echo off
-REM DockerHub credentials
-set DOCKERHUB_USERNAME=vinayyadav115
-set DOCKERHUB_PASSWORD=YourDockerHubPasswordHere
+        withCredentials([usernamePassword(credentialsId: 'nodejs-docker', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
+            // Use --password-stdin for secure login
+            bat 'echo %DOCKERHUB_PASSWORD% | docker login -u vinayyadav115 --password-stdin'
 
-REM Login to DockerHub
-docker login -u %DOCKERHUB_USERNAME% -p %DOCKERHUB_PASSWORD%
+            // Tag and push Docker image
+            bat 'docker tag my-node-app:1.0 vinayyadav115/nodejs-docker'
+            bat 'docker push vinayyadav115/nodejs-docker'
 
-REM Tag the Docker image
-docker tag my-node-app:1.0 %DOCKERHUB_USERNAME%/nodejs-docker
-
-REM Push the Docker image to DockerHub
-docker push %DOCKERHUB_USERNAME%/nodejs-docker
-
-REM Logout from DockerHub
-docker logout
-
+            // Docker logout
+            bat 'docker logout'
         }
     }
 }
+
 
     }
 }
