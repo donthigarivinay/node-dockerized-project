@@ -37,22 +37,7 @@ pipeline {
                 bat 'docker build -t my-app:1.1 .'
             }
         }
-       stage('Docker Push') {
-    steps {
-        withCredentials([usernamePassword(credentialsId: 'nodejs-docker', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
-            // Use -p for password input in Windows batch
-            bat """
-            docker login -u vinayyadav115 -p %DOCKERHUB_PASSWORD%
-
-            docker tag my-app:1.1 vinayyadav115/nodejs-docker
-            docker push vinayyadav115/nodejs-docker
-
-            docker logout
-            """
-        }
-    }
-}
-
+       
 
 
     }
