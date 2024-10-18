@@ -34,7 +34,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t my-node-app:1.1 .'
+                bat 'docker build -t my-app:1.1 .'
             }
         }
        stage('Docker Push') {
@@ -44,7 +44,7 @@ pipeline {
             bat """
             docker login -u vinayyadav115 -p %DOCKERHUB_PASSWORD%
 
-            docker tag my-node-app:1.1 vinayyadav115/nodejs-docker
+            docker tag my-app:1.1 vinayyadav115/nodejs-docker
             docker push vinayyadav115/nodejs-docker
 
             docker logout
