@@ -38,14 +38,14 @@ pipeline {
             }
         }
         stage('Docker Push') {
-            steps {
-        withCredentials([usernamePassword(credentialsId: 'Github_Credentials', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'nodejs-docker', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
             // Use --password-stdin for secure login
-            bat 'echo %DOCKERHUB_PASSWORD% | docker login -u %DOCKERHUB_USERNAME% --password-stdin'
+            bat 'echo %DOCKERHUB_PASSWORD% | docker login -u vinayyadav115 --password-stdin'
 
             // Tag and push Docker image
-            bat 'docker tag my-node-app:1.0 vinayyadav115/Github_Credentials'
-            bat 'docker push vinayyadav115/Github_Credentials'
+            bat 'docker tag my-node-app:1.0 vinayyadav115/nodejs-docker'
+            bat 'docker push vinayyadav115/nodejs-docker'
 
             // Docker logout
             bat 'docker logout'
