@@ -37,8 +37,5 @@ pipeline {
                 bat 'docker build -t my-app:1.1 .'
             }
         }
-       
-
-
     }
 }
